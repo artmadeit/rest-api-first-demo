@@ -104,6 +104,9 @@ components:
           format: int64
         nombreComprador:
           type: string
+        fechaRegistro:
+          type: string
+          format: date
         total:
           type: number
         lineas:
