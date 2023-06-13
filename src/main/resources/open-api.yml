@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: QueKiwi Boleta API
+  version: 1.0.0
+  description: Microservicio de QueKiwi que permite registrar y cancelar boletas
+  contact:
+    email: devs@quekiwi.com
+    name: quekiwi dev team
+servers:
+  - url: http://localhost:8081
+    description: Dev
+  - url: https://quekiwi.com
+    description: Production
+paths:
+  /boletas/{id}:
+    get:
+      summary: Ver detalle de una boleta
+      operationId: obtieneBoleta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+            format: int64
+      responses:
+        "404":
+          description: Not found
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Boleta"
+      tags:
+        - boletas
+  /boletas:
+    post:
+      summary: Crea una boleta, permite en una boleta atender varias mascotas a la vez
+      operationId: creaBoleta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombreComprador:
+                  type: string
+                lineas:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/LineaBoleta"
+      responses:
+        "201":
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Boleta"
+      tags:
+        - boletas
+    delete:
+      summary: Cancela una boleta
+      operationId: cancelaBoleta
+      responses:
+        "204":
+          description: No content
+      tags:
+        - boletas
+    get:
+      summary: Paginado de boletas
+      operationId: listaBoleta
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Boleta"
+      tags:
+        - boletas
+components:
+  schemas:
+    LineaBoleta:
+      type: object
+      properties:
+        veterinarioId:
+          type: integer
+          format: int64
+        mascotaId:
+          type: integer
+          format: int64
+        servicioId:
+          type: integer
+          format: int64
+    Boleta:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombreComprador:
+          type: string
+        total:
+          type: number
+        lineas:
+          type: array
+          items:
+            $ref: "#/components/schemas/LineaBoleta"
