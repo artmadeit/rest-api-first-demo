@@ -86,7 +86,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>io.swagger.codegen.v3</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
 				<version>3.0.43</version>
@@ -112,26 +112,71 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<!-- <plugin>
+			</plugin> -->
+			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.3.0</version>
+				<version>6.6.0</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
+							<generatorName>spring</generatorName>
 							<inputSpec>${project.basedir}/src/main/resources/open-api.yml</inputSpec>
-							<generatorName>java</generatorName>
+							<!-- <groupId>pe.edu.cibertec</groupId>
+							<artifactId>boletas-api</artifactId> -->
+
+							<apiPackage>pe.edu.cibertec.boletas.api</apiPackage>
+							<modelPackage>pe.edu.cibertec.boletas.dtos</modelPackage>
+							<output>${project.build.directory}/generated-sources/swagger</output>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<modelSuffix>Dto</modelSuffix>
+							<additionalProperties>
+								<additionalProperty>modelNameSuffix=Dto</additionalProperty>
+							</additionalProperties>
 							<configOptions>
+								<openApiNullable>false</openApiNullable>
+								<library>spring-boot</library>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<interfaceOnly>true</interfaceOnly>
 								<sourceFolder>src/gen/java/main</sourceFolder>
+								<useSpringBoot3>true</useSpringBoot3>
+								<!-- <useSpringController>true</useSpringController> -->
+
 							</configOptions>
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> -->
+				<!-- <dependencies>
+					<dependency>
+						<groupId>org.openapitools</groupId>
+						<artifactId>openapi-generator-spring</artifactId>
+						<version>6.6.0</version>
+					</dependency>
+				</dependencies> -->
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${generatedSources}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
