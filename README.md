@@ -19,23 +19,27 @@ Otra opcion es usando un plugin de maven. Si usted ve el pom.xml, vera que estam
                 <goal>generate</goal>
             </goals>
             <configuration>
+                <!-- Que tipo de generacion hara? Puede usar muchos framework (laravel, django, ..., vea https://openapi-generator.tech/docs/generators), en nuestro caso spring -->
                 <generatorName>spring</generatorName>
+
+                <!-- Donde esta ubicado su archivo de definicion de su api -->
                 <inputSpec>${project.basedir}/src/main/resources/open-api.yml</inputSpec>
-                <!-- <groupId>pe.edu.cibertec</groupId>
-                <artifactId>boletas-api</artifactId> -->
-
-
+                <!-- Donde desea que se guarde las clases relacionadas a su API REST (GET, POST, PUT...) -->
                 <apiPackage>pe.edu.cibertec.boletas.api</apiPackage>
+                <!-- Donde desea que se guarde los models (schema) -->
                 <modelPackage>pe.edu.cibertec.boletas.dtos</modelPackage>
+                <!-- Donde desea que se guarde todo lo generado (aqui sera en /target/generated-sources/swagger) -->
                 <output>${project.build.directory}/generated-sources/swagger</output>
                 <configOptions>
-                    <openApiNullable>false</openApiNullable>
                     <library>spring-boot</library>
+                    <!-- Si desea o no usar la libreria para manejar nulls de open api generator-->
+                    <openApiNullable>false</openApiNullable>
+
                     <skipDefaultInterface>true</skipDefaultInterface>
                     <interfaceOnly>true</interfaceOnly>
                     <sourceFolder>src/gen/java/main</sourceFolder>
+                    <!-- Si usa spring boot 3, si usa java 17 ponga esto en true, sino borrelo -->
                     <useSpringBoot3>true</useSpringBoot3>
-                    <!-- <useSpringController>true</useSpringController> -->
                 </configOptions>
             </configuration>
         </execution>
