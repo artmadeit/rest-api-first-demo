@@ -133,7 +133,6 @@
 							<modelPackage>pe.edu.cibertec.boletas.dtos</modelPackage>
 							<output>${project.build.directory}/generated-sources/swagger</output>
 							<generateSupportingFiles>false</generateSupportingFiles>
-							<modelSuffix>Dto</modelSuffix>
 							<additionalProperties>
 								<additionalProperty>modelNameSuffix=Dto</additionalProperty>
 							</additionalProperties>
@@ -145,18 +144,10 @@
 								<sourceFolder>src/gen/java/main</sourceFolder>
 								<useSpringBoot3>true</useSpringBoot3>
 								<!-- <useSpringController>true</useSpringController> -->
-
 							</configOptions>
 						</configuration>
 					</execution>
 				</executions>
-				<!-- <dependencies>
-					<dependency>
-						<groupId>org.openapitools</groupId>
-						<artifactId>openapi-generator-spring</artifactId>
-						<version>6.6.0</version>
-					</dependency>
-				</dependencies> -->
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
