@@ -1,9 +1,7 @@
 package pe.edu.cibertec.boletas;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,41 +9,47 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import pe.edu.cibertec.boletas.api.BoletasApi;
+import pe.edu.cibertec.boletas.dtos.BoletaCrearRequestDto;
 import pe.edu.cibertec.boletas.dtos.BoletaDto;
-import pe.edu.cibertec.boletas.dtos.CreaBoletaRequestDto;
 
-@AllArgsConstructor
 @RestController
+@AllArgsConstructor
 public class BoletaController implements BoletasApi {
 
     BoletaRepository boletaRepository;
 
     @Override
-    public ResponseEntity<Void> cancelaBoleta() {
-        return ResponseEntity.noContent().build();
-    }
-
-    @Override
-    public ResponseEntity<BoletaDto> creaBoleta(@Valid CreaBoletaRequestDto creaBoletaRequestDto) {
+    public ResponseEntity<Void> cancelarBoleta(Integer id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'creaBoleta'");
+        throw new UnsupportedOperationException("Unimplemented method 'cancelarBoleta'");
     }
 
     @Override
-    public ResponseEntity<List<BoletaDto>> listaBoleta() {
-        var boletas = boletaRepository.findAll().stream().map(boleta -> {
-            BoletaDto boletaDto = new BoletaDto();
-            boletaDto.setId(boleta.getId());
-            boletaDto.setTotal(boleta.getTotal());
-            return boletaDto;
+    public ResponseEntity<BoletaDto> detalleBoleta(Integer id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'detalleBoleta'");
+    }
+
+    @Override
+    public ResponseEntity<List<BoletaDto>> listaBoletas() {
+        var boletas = boletaRepository.findAll();
+        var boletaDtos = boletas.stream().map(boleta -> {
+            BoletaDto dto = new BoletaDto();
+            dto.setId(boleta.id);
+            dto.setNombreComprador(boleta.nombreComprador);
+            dto.setTotal(boleta.total);
+            // ...
+
+            return dto;
         }).toList();
-        return ResponseEntity.ok(boletas);
+
+        return ResponseEntity.ok(boletaDtos);
     }
 
     @Override
-    public ResponseEntity<BoletaDto> obtieneBoleta(BigDecimal id) {
+    public ResponseEntity<BoletaDto> registrarBoleta(@Valid BoletaCrearRequestDto boletaCrearRequestDto) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtieneBoleta'");
+        throw new UnsupportedOperationException("Unimplemented method 'registrarBoleta'");
     }
 
 }

@@ -1,19 +1,21 @@
 package pe.edu.cibertec.boletas;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Boleta {
+public class LineaBoleta {
+    @ManyToOne
+    Boleta boleta;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String nombreComprador;
-
-    BigDecimal total;
+    Long mascotaId;
+    Long veterinarioId;
+    Long servicioId;
 }
