@@ -1,6 +1,6 @@
 # API First usando Spring
 
-Usted puede generar a partir de su api specification file descrito usando open api codigo para el backend, frontend o colecciones de postman.
+Usted puede generar a partir de su api specification file descrito usando open api codigo para el backend, frontend o colecciones de postman. Esta es una ventaja que tiene el enfoque API First sobre Code First.
 
 Existen distintas maneras de generar el codigo, la forma mas sencilla es dentro del mismo [Swagger Editor](https://editor.swagger.io/) escoger las opciones Generate Server o Generate Client.
 
