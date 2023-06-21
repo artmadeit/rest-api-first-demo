@@ -7,7 +7,7 @@ info:
     email: devteam@quekiwi.com
     name: Equipo de desarrollo
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:8082
     variables: {}
     description: Local
   - url: http://api.quekiwi.com
