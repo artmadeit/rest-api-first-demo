@@ -11,12 +11,14 @@ import lombok.AllArgsConstructor;
 import pe.edu.cibertec.boletas.api.BoletasApi;
 import pe.edu.cibertec.boletas.dtos.BoletaCrearRequestDto;
 import pe.edu.cibertec.boletas.dtos.BoletaDto;
+import pe.edu.cibertec.boletas.dtos.LineaBoletaDto;
 
 @RestController
 @AllArgsConstructor
 public class BoletaController implements BoletasApi {
 
     BoletaRepository boletaRepository;
+    ServicioGateway servicioGateway;
 
     @Override
     public ResponseEntity<Void> cancelarBoleta(Integer id) {
@@ -33,23 +35,47 @@ public class BoletaController implements BoletasApi {
     @Override
     public ResponseEntity<List<BoletaDto>> listaBoletas() {
         var boletas = boletaRepository.findAll();
-        var boletaDtos = boletas.stream().map(boleta -> {
-            BoletaDto dto = new BoletaDto();
-            dto.setId(boleta.id);
-            dto.setNombreComprador(boleta.nombreComprador);
-            dto.setTotal(boleta.total);
-            // ...
-
-            return dto;
-        }).toList();
+        var boletaDtos = boletas.stream().map(this::mapDto).toList();
 
         return ResponseEntity.ok(boletaDtos);
     }
 
+    public BoletaDto mapDto(Boleta boleta) {
+        BoletaDto dto = new BoletaDto();
+        dto.setId(boleta.getId());
+        dto.setNombreComprador(boleta.getNombreComprador());
+        dto.setTotal(boleta.getTotal());
+        dto.setLineas(
+                boleta.getLineas().stream().map(linea -> {
+                    var lineaDto = new LineaBoletaDto();
+                    lineaDto.setMascotaId(linea.mascotaId);
+                    lineaDto.setServicioId(linea.servicioId);
+                    lineaDto.setVeterinarioId(linea.veterinarioId);
+
+                    return lineaDto;
+                }).toList());
+
+        return dto;
+    }
+
     @Override
     public ResponseEntity<BoletaDto> registrarBoleta(@Valid BoletaCrearRequestDto boletaCrearRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registrarBoleta'");
+        Boleta boleta = new Boleta();
+        boleta.setNombreComprador(boletaCrearRequestDto.getNombreComprador());
+        for (var linea : boletaCrearRequestDto.getLineas()) {
+            var servicioDto = servicioGateway.findById(linea.getServicioId());
+            boleta.addLinea(
+                    linea.getMascotaId(),
+                    linea.getVeterinarioId(),
+                    linea.getServicioId(),
+                    servicioDto.getPrecio());
+        }
+
+        var boletaGuardada = boletaRepository.save(boleta);
+        var dto = mapDto(boletaGuardada);
+
+        return ResponseEntity.status(201).body(dto);
+
     }
 
 }
